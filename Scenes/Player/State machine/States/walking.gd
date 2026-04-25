@@ -14,6 +14,10 @@ func _on_directional_input(direction : Vector2) -> void:
 	player.velocity = direction.normalized() * walking_speed
 
 func _on_physics_ticks(_delta : float) -> void:
+	if altitude_manager.z_velocity < 0:
+		state_machine.change_state(state_machine.falling)
+		return
+		
 	player.move_and_slide()
 
 func _on_state_started() -> void:

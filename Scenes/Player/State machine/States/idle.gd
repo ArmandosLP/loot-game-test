@@ -6,7 +6,11 @@ func _on_jump_input() -> void:
 func _on_directional_input(direction : Vector2) -> void:
 	if direction != Vector2.ZERO:
 		state_machine.change_state(state_machine.walking)
-	
+		
+func _on_physics_ticks(_delta : float) -> void:
+	if altitude_manager.z_velocity < 0:
+		state_machine.change_state(state_machine.falling)
+
 func _on_state_started() -> void:
 	player.velocity = Vector2(0,0)
 	pam.animation = pam.AnimationType.IDLE

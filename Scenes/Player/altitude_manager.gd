@@ -24,11 +24,12 @@ func _physics_process(delta: float) -> void:
 	var delta_gravity := gravity * delta
 	
 	z += delta_z_velocity
-	z_velocity -= delta_gravity
 	
-	if z < ground_level:
+	if z <= ground_level:
 		z = ground_level
 		z_velocity = 0
+	else:
+		z_velocity -= delta_gravity
 	
 	# This avoids updating collision masks every frame
 	var new_z_level := int(floor(z / Z_STEP))

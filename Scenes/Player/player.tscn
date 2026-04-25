@@ -12,8 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://brltmgwri7xqo" path="res://Assets/Sprites/Character/Jump_Shadow.png" id="10_jhyir"]
 [ext_resource type="Script" uid="uid://cmjieqkin1i1q" path="res://Scenes/Player/altitude_manager.gd" id="11_74mp2"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4flbx"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_74mp2"]
 radius = 3.0
+height = 12.0
 
 [sub_resource type="Animation" id="Animation_onrkg"]
 length = 0.001
@@ -406,6 +407,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1975790613 node_paths=PackedStringArray("state_machine")]
+y_sort_enabled = true
 script = ExtResource("1_onrkg")
 state_machine = NodePath("StateMachine")
 
@@ -416,14 +418,15 @@ hframes = 8
 
 [node name="PlayerSprite" type="Sprite2D" parent="." unique_id=1902384599]
 texture = ExtResource("5_sweqy")
-offset = Vector2(0, -11)
+offset = Vector2(0, -12)
 hframes = 8
 vframes = 18
 frame = 48
 
 [node name="PlayerColision" type="CollisionShape2D" parent="." unique_id=813809737]
 position = Vector2(0, -3)
-shape = SubResource("CircleShape2D_4flbx")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_74mp2")
 
 [node name="PlayerAnimationManager" type="AnimationPlayer" parent="." unique_id=1269813805]
 libraries/ = SubResource("AnimationLibrary_1jxqw")
@@ -476,4 +479,4 @@ altitude_manager = NodePath("../../AltitudeManager")
 script = ExtResource("3_i3pqv")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=183964200]
-zoom = Vector2(2, 2)
+zoom = Vector2(4, 4)

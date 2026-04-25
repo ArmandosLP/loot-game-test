@@ -18,29 +18,30 @@ var z_velocity : float = 0 # Velocity at the player is moving in z axis
 var z : float = 0 # Z position of the player / antitude
 
 func _physics_process(delta: float) -> void:
-	var ground_level : float = MapManager.get_ground_level(player.position) * Z_STEP
+	var ground_level : float = MapManager.get_ground_level(player.position)
+	var ground_level_step : float = ground_level * Z_STEP
+	var z_level := int(floor(z / Z_STEP))
 	
 	var delta_z_velocity := z_velocity * delta
 	var delta_gravity := gravity * delta
 	
 	z += delta_z_velocity
 	
-	if z <= ground_level:
-		z = ground_level
+	if z <= ground_level_step:
+		z = ground_level_step
 		z_velocity = 0
 	else:
 		z_velocity -= delta_gravity
 	
 	# This avoids updating collision masks every frame
-	var new_z_level := int(floor(z / Z_STEP))
-	if new_z_level != current_z_level:
-		update_collision_masks(new_z_level)
-		current_z_level = new_z_level
+	if z_level != current_z_level:
+		update_collision_masks(z_level)
+		current_z_level = z_level
 	
-	player_sprite.position.y = -z
-	
-	player_shadow.frame = clamp(floor((z - ground_level) / 10),0,3)
-	player_shadow.position.y = -ground_level
+	player_sprite.position.y = -z # Visual player position
+	player.z_index = z_level # Z order for terrain draw sorting
+	player_shadow.frame = clamp(z_level - ground_level,0,3) # Shadow size
+	player_shadow.position.y = -ground_level_step
 
 func update_collision_masks(z_level: int) -> void:
 	for mask in range(8):
